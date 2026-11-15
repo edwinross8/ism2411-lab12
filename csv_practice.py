@@ -3,6 +3,16 @@
 # Author: Edwin Ross
 # 11 / 09 / 2026
 
+# Reflection 1---
+# Python is better for automating a repetitive task like filtering sales
+# and making reports, BUT Excel is easier for manually making edits and
+# visualizing the data, but Python does make repeating the same process simpler
+
+# Reflection 2---
+# A business could use append mode to keep logs of daily sales totals
+# Append mode is very useful because it creates new records without overwriting
+# any previous entries which allows the business to maintain a sales history
+
 import csv
 
 from datetime import datetime 
@@ -12,12 +22,14 @@ CLEANED_FILE = "data/cleaned.csv"
 LOG_FILE = "data/run_log.txt"
 
 
-print("EXERCISE 1")
+print("---Exercise 1---")
 
 with open(SALES_FILE, "r") as f:
     print("Sales file opened successfully!")
 
-print("EXERCISE 2")
+
+
+print("---Exercise 2---")
 
 with open(SALES_FILE, "r") as f:
     reader = csv.reader(f)
@@ -26,7 +38,8 @@ with open(SALES_FILE, "r") as f:
 
 
 
-print("EXERCISE 3")
+
+print("---Exercise 3---")
 
 with open(SALES_FILE, "r") as f:
     reader = csv.reader(f)
@@ -35,7 +48,9 @@ with open(SALES_FILE, "r") as f:
     for row in reader:
         print(row)
 
-print("EXERCISE 4")
+
+
+print("---Exercise 4---")
 
 total_revenue = 0
 
@@ -54,6 +69,8 @@ with open(SALES_FILE, "r") as f:
         print(f"{product}: {quantity} units x ${price:.2f} = ${total:.2f}")
 
 print(f"Total Revenue: ${total_revenue:.2f}")
+
+
 
 
 print("---Exercise 5---")
@@ -102,3 +119,33 @@ print(f"Total Revenue: ${dict_total:.2f}")
 
 # csv.reader is good for when you know the position of each column
 # csv.DictReader is better when you want to access columns by name
+
+
+
+
+print("---Exercise 7---")
+
+summary = {}
+
+with open(SALES_FILE, "r") as f:
+    reader = csv.DictReader(f)
+
+    for row in reader:
+        product = row["product"]
+        total = float(row["price"]) * int(row["quantity"])
+        summary[product] = summary.get(product, 0) + total
+
+for product in sorted(summary):
+    print(f"{product}: ${summary[product]:.2f}")
+
+
+
+
+print("---Exercise 8---")
+
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+with open(LOG_FILE, "a") as f:
+    f.write(f"{timestamp} | Total Revenue: ${total_revenue:.2f}\n")
+
+print("Run log updated successfully!")
